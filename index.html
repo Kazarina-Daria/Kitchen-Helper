@@ -3,82 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Kitchen Helper</title>
+    <link rel="stylesheet" href="./styles.css"> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header class="header">
-    <nav class="header-nav">
-      <div class="menu-top-wrapper">
- <a href="./index.html" class="logo-header" aria-label="main page">
-        <svg class="logo-header-icon" width="158" height="35">
-          <use href="./img/icons.svg#icon-logo-black" class=""></use>
-        </svg>
-     </a>
+        <nav class="header-nav">
+            <div class="menu-top-wrapper">
+                <a href="./index.html" class="logo-header" aria-label="main page">
+                    <span class="logo-text">🥝 Kitchen Helper</span>
+                </a>
+            </div>
+        </nav>
+    </header>
 
-<ul class="header-nav-links">
-    <li class="header-nav-item">
-        <a href="./index.html" class="header-nav-link">Home</a>
-    </li>
-    <li class="header-nav-item">
-             <a href="./index.html" class="header-nav-link">Meine Zutaten</a>
-    </li>
-    <li class="header-nav-item">
-             <a href="./index.html" class="header-nav-link">Rezepte</a>
-    </li>
-    <li class="header-nav-item">
-             <a href="./index.html" class="header-nav-link">Einkaufsliste</a>
-    </li>
-</ul>
-      </div>
-</header>
-    <main>
+    <main class="main-content-wrapper">
+        <div class="main-grid-container">
+            
+            <div class="left-sidebar">
+                
+                <section class="ingredients-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Ingredients</h2>
+                        <button class="add-button" aria-label="Add ingredient">+</button>
+                    </div>
 
+                    <ul class="ingredients-list">
+                        <li class="ingredient-item"> 
+                            <p class="ingredient-name">Eggs</p>
+                            <p class="ingredient-quantity">6 pieces</p>
+                        </li>
+                        <li class="ingredient-item"> 
+                            <p class="ingredient-name">Cheese</p>
+                            <p class="ingredient-quantity">200g</p>
+                        </li>
+                        <li class="ingredient-item"> 
+                            <p class="ingredient-name">Bread</p>
+                            <p class="ingredient-quantity">1 loaf</p>
+                        </li>
+                        <li class="ingredient-item"> 
+                            <p class="ingredient-name">Karotten</p>
+                            <p class="ingredient-quantity">500g</p>
+                        </li>
+                        <li class="ingredient-item"> 
+                            <p class="ingredient-name">Äpfel</p>
+                            <p class="ingredient-quantity">4 Stück</p>
+                        </li>
+                    </ul>
+                </section>
 
-<section class = "hero">
-<div class = "hero-image"></div>
-<div class="container">
-    <div class = "hero-content">
-        <h1 class = "hero-title">Willkommen in deiner Küche</h1>
-       <p class = "hero-text">Sammle deine Lieblingsrezepte, erstelle automatische Einkaufslisten und koche mit Freude.</p>
-     <ul class = "hero-cards">
-        <li class="hero-card-rezepte"> 
-            <h3 class="hero-card-title">Meine Rezepte</h3>
-             <p class="hero-card-text">Verwalte deine Sammlung von 12 gespeicherten Rezepten</p>
-        </li>
+                <hr class="section-divider">
 
-        <li class="hero-card-einkaufsliste"> 
-            <h3 class="hero-card-title">Einkaufsliste</h3>
-             <p class="hero-card-text">Automatisch generiert aus deinen ausgewählten Rezepten</p>
-        </li>
+                <section class="what-can-i-cook-section">
+                    <h2 class="section-title">🥗 What can I cook?</h2>
+                    
+                    <ul class="recipe-suggestion-list">
+                        <li class="recipe-suggestion-card">
+                            <h3 class="suggestion-title">Cheese Omelette</h3>
+                            <p class="suggestion-description">With eggs and cheese</p>
+                            <p class="suggestion-time">15 Min</p>
+                            <button class="cook-button">Cook</button>
+                        </li>
+                        <li class="recipe-suggestion-card">
+                            <h3 class="suggestion-title">Geröstetes Brot</h3>
+                            <p class="suggestion-description">Mit Käse überbacken</p>
+                            <p class="suggestion-time">10 Min</p>
+                            <button class="cook-button">Cook</button>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+            
+            <section class="my-recipes-section">
+                <div class="section-header recipe-header">
+                    <h2 class="section-title">My recipes</h2>
+                    <div class="recipe-filters">
+                        <button class="filter-button active">All</button>
+                        <button class="filter-button">Favorites</button>
+                        <button class="new-recipe-button">+ New recipe</button>
+                    </div>
+                </div>
 
-        <li class="hero-card-rezepte-hinzufuegen"> 
-            <h3 class="hero-card-title">Rezept hinzufügen</h3>
-             <p class="hero-card-text">Erstelle ein neues Rezept mit Zutaten und Schritten</p>
-        </li>
-     </ul>
-    </div>
-</div>
-</section>
+                <div class="recipe-cards-grid">
+                    
+                    <article class="recipe-card">
+                        <img src="images/pasta_carbonara.jpg" alt="Pasta Carbonara" class="recipe-image">
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Pasta Carbonara</h3>
+                            <p class="recipe-meta">15 Min · 🍝 4 Servings</p>
+                            <div class="recipe-actions">
+                                <span class="tag italian-tag">Italian</span>
+                                <button class="view-recipe-button">View recipe</button>
+                            </div>
+                        </div>
+                    </article>
 
-<section class="kuerzlich-hinzugefuegt">
+                    <article class="recipe-card">
+                        <img src="images/bunter_salat.jpg" alt="Bunter Salat (Colorful Salad)" class="recipe-image">
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Bunter Salat</h3>
+                            <p class="recipe-meta">15 Min · 🥗 2 Servings</p>
+                            <div class="recipe-actions">
+                                <span class="tag healthy-tag">Gesund</span>
+                                <button class="view-recipe-button">View recipe</button>
+                            </div>
+                        </div>
+                    </article>
 
-</section>
+                    <article class="recipe-card">
+                        <img src="images/schokoladenkuchen.jpg" alt="Schokoladenkuchen (Chocolate Cake)" class="recipe-image">
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Schokoladenkuchen</h3>
+                            <p class="recipe-meta">60 Min · 🍰 8 Servings</p>
+                            <div class="recipe-actions">
+                                <span class="tag dessert-tag">Dessert</span>
+                                <button class="view-recipe-button">View recipe</button>
+                            </div>
+                        </div>
+                    </article>
 
-<section class="section-aktuelle-einkaufsliste">
-<h2 class="aktuelle-einkaufsliste-titel">Aktuelle Einkaufsliste</h2>
-<button class="shopping-list-button">Liste öffnen</button>
-<form>
-    <label>
-        <input type = "checkbox" name="option1" value="1"/> Milch
-    </label>
-</form>
-<p class="completed">4 von 12 Artikeln erledigt</p>
+                    <article class="recipe-card">
+                        <img src="images/gegrilltes_haehnchen.jpg" alt="Gegrilltes Hähnchen (Grilled Chicken)" class="recipe-image">
+                        <div class="recipe-info">
+                            <h3 class="recipe-title">Gegrilltes Hähnchen</h3>
+                            <p class="recipe-meta">45 Min · 🥩 4 Servings</p>
+                            <div class="recipe-actions">
+                                <span class="tag protein-tag">Protein</span>
+                                <button class="view-recipe-button">View recipe</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
 
-</section>
-</main>
-<footer class="footer-main">
+            <aside class="shopping-list-aside">
+                <div class="section-header">
+                    <h2 class="section-title">🛒 Shopping list</h2>
+                    <button class="add-button" aria-label="Add item to shopping list">+</button>
+                </div>
 
-    <p class="footer-main-text">Dein persönlicher Küchenassistent für köstliche Momente</p>
-</footer>
+                <ul class="shopping-list">
+                    <li class="shopping-item">
+                        <input type="checkbox" id="milk">
+                        <label for="milk" class="item-name">Milk</label>
+                        <span class="item-quantity">1L</span>
+                    </li>
+                    <li class="shopping-item checked">
+                        <input type="checkbox" id="joghurt" checked>
+                        <label for="joghurt" class="item-name">Joghurt</label>
+                        <span class="item-quantity">500g</span>
+                    </li>
+                    <li class="shopping-item">
+                        <input type="checkbox" id="butter">
+                        <label for="butter" class="item-name">Butter</label>
+                        <span class="item-quantity">250g</span>
+                    </li>
+                    <li class="shopping-item">
+                        <input type="checkbox" id="tomaten">
+                        <label for="tomaten" class="item-name">Tomaten</label>
+                        <span class="item-quantity">6 Stück</span>
+                    </li>
+                    <li class="shopping-item">
+                        <input type="checkbox" id="zwiebeln">
+                        <label for="zwiebeln" class="item-name">Zwiebeln</label>
+                        <span class="item-quantity">3 Stück</span>
+                    </li>
+                    <li class="shopping-item checked">
+                        <input type="checkbox" id="bananen" checked>
+                        <label for="bananen" class="item-name">Bananen</label>
+                        <span class="item-quantity">1kg</span>
+                    </li>
+                </ul>
+
+                <hr class="shopping-list-divider">
+
+                <div class="shopping-list-footer">
+                    <span class="total-items">Total: 8 Items</span>
+                    <span class="done-items">3 done</span>
+                </div>
+            </aside>
+
+        </div>
+    </main>
 </body>
 </html>
