@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Helper</title>
+    <!-- Use Flask's url_for to reference static files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <div class="menu-top-wrapper">
+                <!-- Update links to use Flask routes -->
+                <a href="{{ url_for('index') }}" class="logo-header" aria-label="main page">
+                    <span class="logo-text">🥝 Kitchen Helper</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper">
+        <div class="main-grid-container">
+            
+            <div class="left-sidebar">
+                
+                <section class="ingredients-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Ingredients</h2>
+                    </div>
+
+                    <!-- Form to search recipes by ingredients -->
+                    <form method="POST" action="{{ url_for('index') }}" style="margin-bottom: 15px;">
+                        <input type="text" 
+                               name="ingredients" 
+                               placeholder="Enter ingredients (e.g., apples, flour, sugar)" 
+                               style="width: 100%; padding: 8px; border: 1px solid var(--color-border); border-radius: 4px; margin-bottom: 10px;"
+                               value="{% if ingredients_list %}{{ ingredients_list|join(', ') }}{% endif %}">
+                        <button type="submit" class="cook-button" style="width: 100%;">Search Recipes</button>
+                    </form>
+
+                    <!-- Display current ingredients or empty state -->
+                    <ul class="ingredients-list">
+                        {% if ingredients_list %}
+                            {% for ingredient in ingredients_list %}
+                            <li class="ingredient-item"> 
+                                <p class="ingredient-name">{{ ingredient }}</p>
+                            </li>
+                            {% endfor %}
+                        {% else %}
+                            <li style="padding: 20px; text-align: center; color: var(--color-text-light); font-style: italic;">
+                                No ingredients entered yet.<br>
+                                Enter ingredients above to search for recipes!
+                            </li>
+                        {% endif %}
+                    </ul>
+                </section>
+
+                <hr class="section-divider">
+
+                <section class="what-can-i-cook-section">
+                    <h2 class="section-title">🥗 What can I cook?</h2>
+                    
+                    {% if error_message %}
+                        <div style="background-color: #ffebee; color: #c62828; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+                            {{ error_message }}
+                        </div>
+                    {% endif %}
+                    
+                    {% if recipes %}
+                        <ul class="recipe-suggestion-list">
+                            {% for recipe in recipes[:5] %}
+                            <li class="recipe-suggestion-card">
+                                <h3 class="suggestion-title">{{ recipe.title }}</h3>
+                                <p class="suggestion-description">
+                                    {% if recipe.usedIngredientCount > 0 %}
+                                        Uses {{ recipe.usedIngredientCount }} ingredient(s) you have
+                                    {% endif %}
+                                    {% if recipe.missedIngredientCount > 0 %}
+                                        • Needs {{ recipe.missedIngredientCount }} more
+                                    {% endif %}
+                                </p>
+                                <p class="suggestion-time">{{ recipe.likes }} likes</p>
+                                <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" class="cook-button" style="text-decoration: none; display: inline-block;">View</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p style="color: var(--color-text-light); font-size: 14px;">
+                            Enter ingredients above and click "Search Recipes" to find recipes you can make!
+                        </p>
+                    {% endif %}
+                </section>
+            </div>
+            
+            <section class="my-recipes-section">
+                <div class="section-header recipe-header">
+                    <h2 class="section-title">My recipes</h2>
+                    <div class="recipe-filters">
+                        <a href="{{ url_for('index', filter='all') }}" 
+                           class="filter-button {% if filter_type == 'all' %}active{% endif %}" 
+                           style="text-decoration: none; display: inline-block;">All</a>
+                        <a href="{{ url_for('index', filter='favorites') }}" 
+                           class="filter-button {% if filter_type == 'favorites' %}active{% endif %}" 
+                           style="text-decoration: none; display: inline-block;">Favorites</a>
+                        <button class="new-recipe-button">+ New recipe</button>
+                    </div>
+                </div>
+
+                <div class="recipe-cards-grid">
+                    {% if recipes %}
+                        {% for recipe in recipes %}
+                        <article class="recipe-card">
+                            {% if recipe.image %}
+                            <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="recipe-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'%3E%3Crect fill=\'%23ddd\' width=\'300\' height=\'200\'/%3E%3Ctext fill=\'%23999\' font-family=\'sans-serif\' font-size=\'14\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\'%3ENo Image%3C/text%3E%3C/svg%3E';">
+                            {% else %}
+                            <div class="recipe-image" style="background-color: var(--color-border); display: flex; align-items: center; justify-content: center; color: var(--color-text-light);">No Image</div>
+                            {% endif %}
+                            <div class="recipe-info">
+                                <h3 class="recipe-title">{{ recipe.title }}</h3>
+                                <p class="recipe-meta">
+                                    {% if recipe.usedIngredientCount is defined %}
+                                        {% if recipe.usedIngredientCount > 0 %}
+                                            ✓ Uses {{ recipe.usedIngredientCount }} you have
+                                        {% endif %}
+                                        {% if recipe.missedIngredientCount > 0 %}
+                                            • Needs {{ recipe.missedIngredientCount }} more
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if recipe.readyInMinutes %}
+                                        ⏱️ {{ recipe.readyInMinutes }} min
+                                    {% endif %}
+                                    {% if recipe.aggregateLikes %}
+                                        • {{ recipe.aggregateLikes }} likes
+                                    {% elif recipe.likes %}
+                                        • {{ recipe.likes }} likes
+                                    {% endif %}
+                                </p>
+                                <div class="recipe-actions">
+                                    <span class="tag {% if recipe.missedIngredientCount is defined and recipe.missedIngredientCount == 0 %}healthy-tag{% else %}protein-tag{% endif %}">
+                                        {% if recipe.missedIngredientCount is defined and recipe.missedIngredientCount == 0 %}Ready{% else %}Recipe{% endif %}
+                                    </span>
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        {% set is_fav = favorites|selectattr('id', 'equalto', recipe.id)|list|length > 0 %}
+                                        <form method="POST" action="{% if is_fav %}{{ url_for('remove_favorite', recipe_id=recipe.id) }}{% else %}{{ url_for('add_favorite') }}{% endif %}" style="margin: 0; display: inline;">
+                                            <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                                            <input type="hidden" name="recipe_title" value="{{ recipe.title }}">
+                                            <input type="hidden" name="recipe_image" value="{{ recipe.image or '' }}">
+                                            <input type="hidden" name="return_url" value="{{ request.url }}">
+                                            <button type="submit" 
+                                                    style="background: none; border: none; font-size: 20px; cursor: pointer; padding: 0;"
+                                                    title="{% if is_fav %}Remove from favorites{% else %}Add to favorites{% endif %}">
+                                                {% if is_fav %}❤️{% else %}🤍{% endif %}
+                                            </button>
+                                        </form>
+                                        <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" class="view-recipe-button" style="text-decoration: none; display: inline-block;">View recipe</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    {% elif random_recipes %}
+                        <div style="grid-column: 1 / -1; margin-bottom: 20px; padding: 15px; background: var(--color-background); border-radius: 8px;">
+                            <h3 style="margin-bottom: 10px; color: var(--color-text-dark);">✨ Random Recipe Inspiration</h3>
+                            <p style="color: var(--color-text-light); font-size: 14px; margin-bottom: 15px;">Here are some random recipes to inspire you! Enter ingredients above to find recipes you can make.</p>
+                        </div>
+                        {% for recipe in random_recipes %}
+                        <article class="recipe-card">
+                            {% if recipe.image %}
+                            <img src="{{ recipe.image }}" alt="{{ recipe.title }}" class="recipe-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'300\' height=\'200\'%3E%3Crect fill=\'%23ddd\' width=\'300\' height=\'200\'/%3E%3Ctext fill=\'%23999\' font-family=\'sans-serif\' font-size=\'14\' x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\'%3ENo Image%3C/text%3E%3C/svg%3E';">
+                            {% else %}
+                            <div class="recipe-image" style="background-color: var(--color-border); display: flex; align-items: center; justify-content: center; color: var(--color-text-light);">No Image</div>
+                            {% endif %}
+                            <div class="recipe-info">
+                                <h3 class="recipe-title">{{ recipe.title }}</h3>
+                                <p class="recipe-meta">
+                                    {% if recipe.readyInMinutes %}
+                                        ⏱️ {{ recipe.readyInMinutes }} min
+                                    {% endif %}
+                                    {% if recipe.servings %}
+                                        • Serves {{ recipe.servings }}
+                                    {% endif %}
+                                    {% if recipe.aggregateLikes %}
+                                        • {{ recipe.aggregateLikes }} likes
+                                    {% endif %}
+                                </p>
+                                <div class="recipe-actions">
+                                    <span class="tag protein-tag">Random</span>
+                                    <div style="display: flex; gap: 10px; align-items: center;">
+                                        {% set is_fav = favorites|selectattr('id', 'equalto', recipe.id)|list|length > 0 %}
+                                        <form method="POST" action="{% if is_fav %}{{ url_for('remove_favorite', recipe_id=recipe.id) }}{% else %}{{ url_for('add_favorite') }}{% endif %}" style="margin: 0; display: inline;">
+                                            <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                                            <input type="hidden" name="recipe_title" value="{{ recipe.title }}">
+                                            <input type="hidden" name="recipe_image" value="{{ recipe.image or '' }}">
+                                            <input type="hidden" name="return_url" value="{{ request.url }}">
+                                            <button type="submit" 
+                                                    style="background: none; border: none; font-size: 20px; cursor: pointer; padding: 0;"
+                                                    title="{% if is_fav %}Remove from favorites{% else %}Add to favorites{% endif %}">
+                                                {% if is_fav %}❤️{% else %}🤍{% endif %}
+                                            </button>
+                                        </form>
+                                        <a href="{{ url_for('recipe_detail', recipe_id=recipe.id) }}" class="view-recipe-button" style="text-decoration: none; display: inline-block;">View recipe</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        {% endfor %}
+                    {% else %}
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--color-text-light);">
+                            <p style="font-size: 18px; margin-bottom: 10px;">No recipes found yet</p>
+                            <p>Enter ingredients in the left sidebar and search for recipes!</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+
+            <aside class="shopping-list-aside">
+                <div class="section-header">
+                    <h2 class="section-title">🛒 Shopping list</h2>
+                    <button class="add-button" onclick="document.getElementById('add-item-form').style.display='block'; this.style.display='none';" aria-label="Add item to shopping list">+</button>
+                </div>
+
+                <!-- Add item form -->
+                <form id="add-item-form" method="POST" action="{{ url_for('add_shopping_item') }}" style="display: none; margin-bottom: 15px; padding: 10px; background: var(--color-background); border-radius: 4px;">
+                    <input type="text" name="item_name" placeholder="Item name" required style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid var(--color-border); border-radius: 4px;">
+                    <input type="text" name="item_quantity" placeholder="Quantity (optional)" style="width: 100%; padding: 8px; margin-bottom: 8px; border: 1px solid var(--color-border); border-radius: 4px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button type="submit" class="cook-button" style="flex: 1; padding: 8px;">Add</button>
+                        <button type="button" onclick="document.getElementById('add-item-form').style.display='none'; document.querySelector('.add-button').style.display='block';" style="flex: 1; padding: 8px; background: var(--color-text-light); color: white; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+                    </div>
+                </form>
+
+                <ul class="shopping-list">
+                    {% if shopping_list %}
+                        {% for item in shopping_list %}
+                        <li class="shopping-item {% if item.checked %}checked{% endif %}">
+                            <form method="POST" action="{{ url_for('toggle_shopping_item', item_id=item.id) }}" style="display: inline; margin-right: 10px;">
+                                <input type="checkbox" 
+                                       id="item_{{ item.id }}" 
+                                       {% if item.checked %}checked{% endif %}
+                                       onchange="this.form.submit();"
+                                       style="cursor: pointer;">
+                            </form>
+                            <label for="item_{{ item.id }}" class="item-name">{{ item.name }}</label>
+                            {% if item.quantity %}
+                            <span class="item-quantity">{{ item.quantity }}</span>
+                            {% endif %}
+                            <form method="POST" action="{{ url_for('remove_shopping_item', item_id=item.id) }}" style="display: inline; margin-left: 10px;">
+                                <button type="submit" 
+                                        style="background: none; border: none; color: var(--color-text-light); cursor: pointer; font-size: 16px; padding: 0 5px;"
+                                        title="Remove item"
+                                        onclick="return confirm('Remove {{ item.name }} from shopping list?');">
+                                    ×
+                                </button>
+                            </form>
+                        </li>
+                        {% endfor %}
+                    {% else %}
+                        <li style="padding: 20px; text-align: center; color: var(--color-text-light);">
+                            No items in shopping list. Click + to add items.
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <hr class="shopping-list-divider">
+
+                <div class="shopping-list-footer">
+                    <span class="total-items">Total: {{ total_items }} Items</span>
+                    <span class="done-items">{{ done_items }} done</span>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+</body>
+</html>
+

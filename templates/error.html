@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Kitchen Helper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <div class="menu-top-wrapper">
+                <a href="{{ url_for('index') }}" class="logo-header" aria-label="main page">
+                    <span class="logo-text">🥝 Kitchen Helper</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper">
+        <div class="form-container">
+            <h1 style="color: #c62828;">Error</h1>
+            <p style="color: var(--color-text-dark); margin-bottom: 20px;">{{ error_message }}</p>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">← Back to Home</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+

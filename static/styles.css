@@ -1,0 +1,443 @@
+
+:root {
+    --color-primary: #FF7F0E;
+    --color-text-dark: #333;
+    --color-text-light: #555;
+    --color-background: #f8f8f8; 
+    --color-card-background: #fff;
+    --color-border: #eee;
+    --color-green-cook: #8bc34a;
+    --color-tag-italian: #e57373; 
+    --color-tag-healthy: #4caf50; 
+    --color-tag-dessert: #ba68c8; 
+    --color-tag-protein: #64b5f6; 
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--color-text-dark);
+    background-color: var(--color-background);
+}
+
+/* --- Header & Logo --- */
+.header {
+    background-color: var(--color-card-background);
+    border-bottom: 1px solid var(--color-border);
+    padding: 15px 40px;
+}
+
+.logo-header {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+.logo-text {
+    margin-left: 8px;
+}
+
+/* --- Main Layout Grid --- */
+.main-content-wrapper {
+    padding: 40px;
+}
+
+.main-grid-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 30px;
+    max-width: 1400px; 
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+.add-button {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--color-text-light);
+    cursor: pointer;
+}
+
+
+.left-sidebar {
+   
+}
+
+/* Ingredients List */
+.ingredients-section {
+    background-color: var(--color-card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+}
+
+.ingredients-list {
+    list-style: none;
+}
+
+.ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.ingredient-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.ingredient-name {
+    font-weight: 500;
+}
+
+.ingredient-quantity {
+    color: var(--color-text-light);
+}
+
+.section-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 20px 0;
+}
+
+/* What can I cook? Section */
+.what-can-i-cook-section {
+    background-color: var(--color-card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+}
+
+.what-can-i-cook-section .section-title {
+    margin-bottom: 20px;
+}
+
+.recipe-suggestion-list {
+    list-style: none;
+}
+
+.recipe-suggestion-card {
+    background-color: var(--color-background); /* Slightly different background */
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-areas: 
+        "title time"
+        "description cook";
+    grid-template-columns: 1fr auto;
+    gap: 5px;
+    align-items: center;
+}
+
+.suggestion-title {
+    grid-area: title;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.suggestion-description {
+    grid-area: description;
+    font-size: 14px;
+    color: var(--color-text-light);
+}
+
+.suggestion-time {
+    grid-area: time;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-light);
+}
+
+.cook-button {
+    grid-area: cook;
+    justify-self: end;
+    background-color: var(--color-green-cook);
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cook-button:hover {
+    background-color: #689f38;
+}
+
+/* --- 2. CENTER COLUMN: My recipes --- */
+.my-recipes-section {
+    /* Main content area */
+}
+
+.recipe-header {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.recipe-filters {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.filter-button {
+    background-color: transparent;
+    border: none;
+    color: var(--color-text-light);
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.filter-button.active {
+    background-color: var(--color-text-dark);
+    color: white;
+}
+
+.new-recipe-button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.new-recipe-button:hover {
+    background-color: #e88d00;
+}
+
+/* Recipe Cards Grid */
+.recipe-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.recipe-card {
+    background-color: var(--color-card-background);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+}
+
+.recipe-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.recipe-info {
+    padding: 15px;
+}
+
+.recipe-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.recipe-meta {
+    font-size: 14px;
+    color: var(--color-text-light);
+    margin-bottom: 15px;
+}
+
+.recipe-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tag {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.italian-tag { background-color: var(--color-tag-italian); }
+.healthy-tag { background-color: var(--color-tag-healthy); }
+.dessert-tag { background-color: var(--color-tag-dessert); }
+.protein-tag { background-color: var(--color-tag-protein); }
+
+.view-recipe-button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* --- 3. RIGHT COLUMN: Shopping list --- */
+.shopping-list-aside {
+    background-color: var(--color-card-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+}
+
+.shopping-list {
+    list-style: none;
+}
+
+.shopping-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.shopping-item input[type="checkbox"] {
+    /* Custom checkbox styling can be complex, using standard for simplicity */
+    margin-right: 10px;
+}
+
+.shopping-item .item-name {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.shopping-item.checked .item-name,
+.shopping-item.checked .item-quantity {
+    text-decoration: line-through;
+    color: var(--color-text-light);
+}
+
+.shopping-list-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--color-border);
+    margin: 15px 0;
+}
+
+.shopping-list-footer {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+}
+
+.done-items {
+    color: var(--color-text-light);
+}
+
+/* Form Styles - Added for contact page */
+.form-container {
+    background-color: var(--color-card-background);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.submit-button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #e88d00;
+}
+
+.success-message {
+    background-color: #4caf50;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.nav-links a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+

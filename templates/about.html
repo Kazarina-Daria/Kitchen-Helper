@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Kitchen Helper</title>
+    <!-- Use Flask's url_for to reference static files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <div class="menu-top-wrapper">
+                <!-- Update links to use Flask routes -->
+                <a href="{{ url_for('index') }}" class="logo-header" aria-label="main page">
+                    <span class="logo-text">🥝 Kitchen Helper</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper">
+        <div class="form-container">
+            <h1 class="section-title">About Kitchen Helper</h1>
+            <p style="margin-bottom: 20px; color: var(--color-text-light); line-height: 1.8;">
+                Kitchen Helper is your personal cooking assistant designed to make meal planning and preparation easier. 
+                Our application helps you manage your ingredients, discover recipes based on what you have, and keep track 
+                of your shopping list all in one place.
+            </p>
+            <p style="margin-bottom: 20px; color: var(--color-text-light); line-height: 1.8;">
+                Whether you're a beginner cook or a seasoned chef, Kitchen Helper is here to inspire your culinary journey 
+                and help you make the most of the ingredients you have available.
+            </p>
+
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">← Back to Home</a>
+                <a href="{{ url_for('contact') }}">Contact Us →</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+

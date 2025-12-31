@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe.title }} - Kitchen Helper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="header-nav">
+            <div class="menu-top-wrapper">
+                <a href="{{ url_for('index') }}" class="logo-header" aria-label="main page">
+                    <span class="logo-text">🥝 Kitchen Helper</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-content-wrapper">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div class="nav-links" style="margin-bottom: 20px;">
+                <a href="{{ url_for('index') }}">← Back to Home</a>
+            </div>
+
+            {% if recipe.error %}
+                <div class="form-container">
+                    <h1>Error</h1>
+                    <p>{{ recipe.error }}</p>
+                </div>
+            {% else %}
+                <article style="background-color: var(--color-card-background); border-radius: 8px; box-shadow: var(--card-shadow); overflow: hidden; margin-bottom: 30px;">
+                    {% if recipe.image %}
+                    <img src="{{ recipe.image }}" alt="{{ recipe.title }}" style="width: 100%; height: 400px; object-fit: cover;">
+                    {% endif %}
+                    
+                    <div style="padding: 30px;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                            <h1 style="font-size: 32px; margin: 0; color: var(--color-text-dark);">{{ recipe.title }}</h1>
+                            <form method="POST" action="{% if is_favorite %}{{ url_for('remove_favorite', recipe_id=recipe.id) }}{% else %}{{ url_for('add_favorite') }}{% endif %}" style="margin: 0;">
+                                <input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+                                <input type="hidden" name="recipe_title" value="{{ recipe.title }}">
+                                <input type="hidden" name="recipe_image" value="{{ recipe.image or '' }}">
+                                <input type="hidden" name="return_url" value="{{ request.url }}">
+                                <button type="submit" 
+                                        style="background: none; border: none; font-size: 28px; cursor: pointer; padding: 5px 10px;"
+                                        title="{% if is_favorite %}Remove from favorites{% else %}Add to favorites{% endif %}">
+                                    {% if is_favorite %}❤️{% else %}🤍{% endif %}
+                                </button>
+                            </form>
+                        </div>
+                        
+                        {% if recipe.readyInMinutes %}
+                        <p style="color: var(--color-text-light); margin-bottom: 20px;">
+                            ⏱️ Ready in {{ recipe.readyInMinutes }} minutes
+                            {% if recipe.servings %} • Serves {{ recipe.servings }}{% endif %}
+                        </p>
+                        {% endif %}
+
+                        {% if recipe.summary %}
+                        <div style="margin-bottom: 30px; line-height: 1.8; color: var(--color-text-dark);">
+                            {{ recipe.summary|safe }}
+                        </div>
+                        {% endif %}
+
+                        {% if recipe.extendedIngredients %}
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="font-size: 20px; margin-bottom: 15px; color: var(--color-text-dark);">Ingredients</h2>
+                            <ul style="list-style: none; padding: 0;">
+                                {% for ingredient in recipe.extendedIngredients %}
+                                <li style="padding: 8px 0; border-bottom: 1px solid var(--color-border);">
+                                    <strong>{{ ingredient.amount }} {{ ingredient.unit }}</strong> {{ ingredient.name }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        {% if recipe.analyzedInstructions and recipe.analyzedInstructions[0].steps %}
+                        <div>
+                            <h2 style="font-size: 20px; margin-bottom: 15px; color: var(--color-text-dark);">Instructions</h2>
+                            <ol style="padding-left: 20px; line-height: 1.8;">
+                                {% for step in recipe.analyzedInstructions[0].steps %}
+                                <li style="margin-bottom: 15px; color: var(--color-text-dark);">
+                                    {{ step.step }}
+                                </li>
+                                {% endfor %}
+                            </ol>
+                        </div>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endif %}
+        </div>
+    </main>
+</body>
+</html>
+
